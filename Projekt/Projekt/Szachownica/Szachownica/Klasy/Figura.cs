@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,28 +15,19 @@ namespace Szachownica.Klasy
         public Pozycja pozycja;
         public static List<Figura> figury = new List<Figura>();
         public delegate void moveMessage(bool success);
-        public const string kolorczarny = "Czarny";
-        public const string kolorbialy = "Biały";
+       
         public Figura(string kolor)
         {
-            kolor.ToLower();
-            if (!(kolor == kolorbialy || kolor == kolorczarny))
-            {
-                Console.WriteLine("BŁĄD - Zły kolor");
-                return;
-            }
-            else
-            {
-                this.kolor = kolor;
-            }
+            this.kolor = kolor.ToLower();
             figury.Add(this);
         }
+        
         public override string ToString()
         {
-            return string.Format("+{3,1}+{0,8}+{1,8}+{2,4}+",
-                                 this.nazwa.PadRight(7),
-                                 this.kolor.PadRight(7),
-                                 this.pozycja.Pole.PadRight(3));
+            return string.Format("{0} - {1} - {2}",
+                                 this.nazwa,
+                                 this.kolor,
+                                 this.pozycja.Pole);
                                  
         }
         public virtual bool RuchMozliwy(Pozycja nadajPozycje)
@@ -47,6 +38,7 @@ namespace Szachownica.Klasy
             }
             return true;
         }
+        
         public virtual void RuchNa(Pozycja nadajPozycje)
         {
             moveMessage info = new moveMessage(Info);
@@ -60,6 +52,7 @@ namespace Szachownica.Klasy
                 info(false);
             }
         }
+        
         public static void Info(bool success)
         {
             if (success)
